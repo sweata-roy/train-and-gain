@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Train and Gain — Set Goals. Crush Limits.</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #000000;
+    --gold: #D4AF37;
+    --dark-gold: #B38F2A;
+    --deep-red: #D72626;
+    --dark-gray: #1A1A1A;
+    --mid-gray: #2a2a2a;
+    --text-muted: #888;
+    --white: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── PAGES ── */
+  .page { display: none; min-height: 100vh; }
+  .page.active { display: block; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(0,0,0,0.96);
+    border-bottom: 1px solid rgba(212,175,55,0.2);
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+    backdrop-filter: blur(12px);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+  }
+
+  .nav-logo-badge {
+    width: 44px;
+    height: 44px;
+    position: relative;
+  }
+
+  .nav-logo-badge img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+  .nav-logo-text { line-height: 1.1; }
+  .nav-logo-text .brand-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+  .nav-logo-text .brand-name span { color: var(--gold); }
+  .nav-logo-text .brand-tag {
+    font-size: 7px;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: block;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #aaa;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s;
+    position: relative;
+    padding-bottom: 4px;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.25s;
+  }
+
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+  .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+  .nav-cta {
+    background: var(--deep-red);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .nav-cta:hover { background: #b51e1e; transform: translateY(-1px); }
+  .nav-cta:active { transform: translateY(0); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: calc(100vh - 68px);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--black);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(105deg, rgba(0,0,0,0.75) 35%, rgba(0,0,0,0.25) 100%),
+      url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600&q=80') center/cover no-repeat;
+  }
+
+  .hero-accent-line {
+    position: absolute;
+    top: 0; left: 0;
+    width: 0px;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    opacity: 0.6;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 80px 80px 80px 80px;
+    max-width: 720px;
+    animation: heroIn 0.9s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  @keyframes heroIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--deep-red);
+  }
+
+  .hero-h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(52px, 7vw, 88px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+ .hero-h1 .line-gold { 
+    color: var(--gold); 
+    display: inline; 
+}
+
+.hero-h1 .line-white { 
+    color: var(--white); 
+    display: inline; 
+}
+
+.hero-h1 div{
+    display:block;
+    white-space: nowrap;
+}
+
+  .hero-sub {
+    font-size: 15px;
+    font-weight: 300;
+    color: #bbb;
+    line-height: 1.7;
+    margin-bottom: 36px;
+    max-width: 440px;
+  }
+
+  .hero-actions { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--deep-red);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    text-decoration: none;
+  }
+  .btn-primary:hover { background: #b51e1e; transform: translateY(-2px); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--gold);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 13px 28px;
+    border: 1px solid var(--gold);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+    text-decoration: none;
+  }
+  .btn-secondary:hover { background: var(--gold); color: var(--black); transform: translateY(-2px); }
+
+  .hero-phone {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    color: #666;
+    letter-spacing: 0.1em;
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hero-phone a { color: var(--gold); text-decoration: none; font-weight: 600; }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    background: var(--dark-gray);
+    border-top: 1px solid rgba(212,175,55,0.15);
+    border-bottom: 1px solid rgba(212,175,55,0.15);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .stat-item {
+    padding: 28px 20px;
+    text-align: center;
+    border-right: 1px solid rgba(212,175,55,0.1);
+    transition: background 0.2s;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-item:hover { background: rgba(212,175,55,0.04); }
+
+  .stat-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  /* ── SECTIONS ── */
+  .section { padding: 80px 80px; }
+  .section-sm { padding: 60px 80px; }
+
+  .section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .section-eyebrow::before { content:''; width:28px; height:1px; background:var(--deep-red); }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(36px, 4.5vw, 56px);
+    font-weight: 900;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 48px;
+  }
+  .section-title span { color: var(--gold); }
+
+  /* ── CLASSES ── */
+  .classes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(212,175,55,0.15);
+    border: 1px solid rgba(212,175,55,0.15);
+  }
+
+  .class-card{
+    position: relative;
+    padding: 36px 28px;
+    overflow: hidden;
+    cursor: pointer;
+    min-height: 360px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    background: #101010;
+    border: 1px solid rgba(255,255,255,0.04);
+    isolation: isolate;
+    transition: transform .3s, border-color .3s, box-shadow .3s;
+}
+
+.class-card::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background-image: var(--class-image);
+    background-size: cover;
+    background-position: center;
+    opacity: .42;
+    transform: scale(1);
+    transition: transform .55s cubic-bezier(.22,1,.36,1), opacity .35s;
+    z-index:0;
+}
+
+.class-card::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+    linear-gradient(
+        to top,
+        rgba(0,0,0,.9) 10%,
+        rgba(0,0,0,.68) 48%,
+        rgba(0,0,0,.44) 100%
+    );
+
+    z-index:1;
+}
+
+.class-card > *{
+    position:relative;
+    z-index:2;
+}
+
+.class-card:hover{
+    transform:scale(1.02);
+    border-color: rgba(212,175,55,.36);
+}
+
+.yoga{
+    --class-image: url("yoga.jpeg");
+}
+
+.zumba{
+    --class-image: url("zumba.jpeg");
+}
+
+.personal{
+    --class-image: url("personal-training.jpeg");
+}
+
+  .class-card:hover::before,
+  .class-card.selected::before {
+    opacity: .68;
+    transform: scale(1.1);
+  }
+
+  .class-card.selected {
+    transform: scale(1.03);
+    border-color: rgba(212,175,55,.8);
+    box-shadow:
+      inset 3px 0 0 var(--gold),
+      0 18px 45px rgba(0,0,0,.42),
+      0 0 0 1px rgba(212,175,55,.25);
+  }
+
+  .class-card.featured.selected {
+    border-color: rgba(215,38,38,.78);
+    box-shadow:
+      inset 3px 0 0 var(--deep-red),
+      0 18px 45px rgba(0,0,0,.42),
+      0 0 0 1px rgba(215,38,38,.28);
+  }
+
+  .class-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 16px;
+    color: var(--gold);
+  }
+  .class-card.featured .class-icon { color: var(--deep-red); }
+
+  .class-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    background: var(--deep-red);
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .class-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+  .class-card.featured .class-name { color: var(--gold); }
+
+  .class-desc {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .class-meta {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.7;
+  }
+
+  .class-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 20px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--deep-red);
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0;
+    transition: gap 0.2s;
+  }
+  .class-cta:hover { gap: 10px; }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-bg { background: var(--dark-gray); }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .testi-card {
+    background: var(--black);
+    border: 1px solid rgba(212,175,55,0.12);
+    padding: 28px;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+  .testi-card:hover { border-color: rgba(212,175,55,0.4); }
+
+  .testi-stars {
+    color: var(--gold);
+    font-size: 13px;
+    letter-spacing: 3px;
+    margin-bottom: 14px;
+  }
+
+  .testi-text {
+    font-size: 14px;
+    color: #ccc;
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+
+  .testi-author {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .testi-role {
+    font-size: 11px;
+    color: #666;
+    margin-top: 2px;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── CTA STRIP ── */
+  .cta-strip {
+    background: var(--gold);
+    padding: 36px 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .cta-strip-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--black);
+    line-height: 1;
+  }
+
+  .cta-strip-sub {
+    font-size: 13px;
+    color: rgba(0,0,0,0.6);
+    margin-top: 4px;
+  }
+
+  .btn-black {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--black);
+    color: var(--gold);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .btn-black:hover { background: #111; transform: translateY(-2px); }
+
+  /* ── ABOUT PAGE ── */
+  .about-hero {
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    background: var(--black);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to right, rgba(0,0,0,0.90) 38%, rgba(0,0,0,0.5) 100%),
+      url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=1400&q=80') center/cover no-repeat;
+  }
+
+  .about-hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 80px;
+    animation: heroIn 0.9s both;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(212,175,55,0.12);
+    border: 1px solid rgba(212,175,55,0.12);
+  }
+
+  .value-card {
+    background: var(--dark-gray);
+    padding: 32px 28px;
+    transition: background 0.2s;
+  }
+  .value-card:hover { background: #1f1f1f; }
+
+  .value-icon {
+    width: 36px;
+    height: 36px;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .value-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .value-text { font-size: 13px; color: #888; line-height: 1.6; }
+
+  .trainers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .trainer-card {
+    background: var(--dark-gray);
+    border: 1px solid rgba(212,175,55,0.1);
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .trainer-card:hover { border-color: rgba(212,175,55,0.4); }
+
+  .trainer-img {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .trainer-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(30%);
+    transition: transform 0.4s, filter 0.4s;
+  }
+  .trainer-card:hover .trainer-img img { transform: scale(1.04); filter: grayscale(0); }
+
+  .trainer-info { padding: 20px; }
+
+  .trainer-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .trainer-role {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .trainer-bio { font-size: 12px; color: #777; line-height: 1.6; }
+
+  /* ── BOOK PAGE ── */
+  .book-hero {
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+    border-bottom: 0px solid rgba(212,175,55,0.15);
+    padding: 60px 80px;
+    position: relative;
+    overflow: hidden;
+
+    background:
+    linear-gradient(to right, rgba(0,0,0,0.90) 38%, rgba(0,0,0,0.5) 100%),
+      url('3.jpeg') center/cover no-repeat; 
+}
+
+  .book-hero::after {
+    content: '';
+    position: absolute;
+    right: -100px; top: -100px;
+    width: 500px; height: 500px;
+    border: 1px solid rgba(212,175,55,0.06);
+    border-radius: 50%;
+  }
+
+  .book-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    padding: 60px 80px;
+  }
+
+  .book-phone-card {
+    background: var(--dark-gray);
+    border: 1px solid rgba(212,175,55,0.25);
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .book-phone-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
+  }
+
+  .phone-icon-wrap {
+    width: 64px; height: 64px;
+    border: 1px solid rgba(212,175,55,0.3);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+  }
+
+  .phone-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .phone-number {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 38px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    color: var(--gold);
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+
+  .phone-hours {
+    font-size: 12px;
+    color: #555;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .trust-badges {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 28px;
+    text-align: left;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: #888;
+  }
+
+  .trust-dot {
+    width: 5px; height: 5px;
+    background: var(--gold);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .divider-or {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: #444;
+    text-transform: uppercase;
+    margin: 20px 0;
+  }
+  .divider-or::before, .divider-or::after {
+    content: ''; flex: 1; height: 1px; background: rgba(212,175,55,0.15);
+  }
+
+  .book-form-card {
+    background: var(--dark-gray);
+    border: 1px solid rgba(212,175,55,0.15);
+    padding: 40px;
+  }
+
+  .form-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .form-sub { font-size: 13px; color: #666; margin-bottom: 24px; }
+
+  .form-group { margin-bottom: 14px; }
+
+  .form-group label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 6px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    background: #111;
+    border: 1px solid rgba(212,175,55,0.15);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    padding: 12px 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: #444; }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--gold); }
+
+  .form-group select { cursor: pointer; color: #aaa; }
+  .form-group select option { background: #111; }
+
+  .form-group textarea { resize: vertical; min-height: 80px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .btn-submit {
+    width: 100%;
+    background: var(--deep-red);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 16px;
+    border: none;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s;
+  }
+  .btn-submit:hover { background: #b51e1e; }
+
+  /* ── ADDRESS BLOCK ── */
+  .address-strip {
+    background: var(--dark-gray);
+    border-top: 1px solid rgba(212,175,55,0.1);
+    padding: 40px 80px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+  }
+
+  .address-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 0 24px 0 0;
+  }
+
+  .address-icon {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(212,175,55,0.25);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    color: var(--gold);
+  }
+
+  .address-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 4px;
+  }
+
+  .address-val {
+    font-size: 13px;
+    color: #ccc;
+    line-height: 1.5;
+  }
+  .address-val a { color: var(--gold); text-decoration: none; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #000;
+    border-top: 1px solid rgba(212,175,55,0.12);
+    padding: 28px 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .footer-brand {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .footer-copy { font-size: 11px; color: #444; }
+
+  .footer-tag {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #333;
+  }
+
+  /* ── GOLD RULE ── */
+  .gold-rule {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 0;
+    opacity: 0.3;
+  }
+
+  /* ── ABOUT SPLIT ── */
+  .about-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    min-height: 460px;
+  }
+
+  .about-split-img {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-split-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(20%);
+    display: block;
+  }
+
+  .about-split-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent 70%, var(--black) 100%);
+  }
+
+  .about-split-content {
+    background: var(--dark-gray);
+    padding: 56px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .about-split-content p {
+    font-size: 14px;
+    color: #999;
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+
+  /* ── UTIL ── */
+  .text-gold { color: var(--gold); }
+  .text-red  { color: var(--deep-red); }
+
+  /* ── ANIMATIONS ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s, transform 0.6s;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── HAMBURGER MENU ── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+    z-index: 200;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--gold);
+    transition: transform 0.3s, opacity 0.3s;
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 68px;
+    left: 0; right: 0;
+    background: rgba(0,0,0,0.98);
+    border-bottom: 1px solid rgba(212,175,55,0.2);
+    z-index: 99;
+    padding: 20px 0;
+    backdrop-filter: blur(12px);
+  }
+  .mobile-menu.open { display: block; }
+  .mobile-menu ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+  .mobile-menu ul li a {
+    display: block;
+    padding: 14px 28px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #aaa;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(212,175,55,0.06);
+    transition: color 0.2s, background 0.2s;
+  }
+  .mobile-menu ul li a:hover,
+  .mobile-menu ul li a.active { color: var(--gold); background: rgba(212,175,55,0.04); }
+  .mobile-menu-cta {
+    margin: 16px 28px 0;
+    display: block;
+    background: var(--deep-red);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 14px 20px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    width: calc(100% - 56px);
+    transition: background 0.2s;
+  }
+  .mobile-menu-cta:hover { background: #b51e1e; }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    /* Nav */
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .nav-cta { display: none; }
+    .hamburger { display: flex; }
+
+    /* Hero */
+    .hero { min-height: calc(100svh - 68px); align-items: flex-end; padding-bottom: 40px; }
+    .hero-content { padding: 0 22px 0 22px; max-width: 100%; }
+    .hero-h1 { font-size: clamp(38px, 10vw, 56px); }
+    .hero-h1 div { white-space: normal; }
+    .hero-sub { font-size: 14px; max-width: 100%; }
+    .hero-actions { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .hero-actions .btn-primary,
+    .hero-actions .btn-secondary { width: 100%; justify-content: center; }
+    .hero-phone { font-size: 12px; flex-wrap: wrap; }
+
+    /* Stats bar */
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .stat-num { font-size: 32px; }
+    .stat-item { padding: 20px 12px; }
+    .stat-label { font-size: 9px; }
+
+    /* Sections */
+    .section { padding: 44px 20px; }
+    .section-sm { padding: 36px 20px; }
+    .section-title { font-size: clamp(28px, 8vw, 40px); margin-bottom: 28px; }
+
+    /* Classes */
+    .classes-grid { grid-template-columns: 1fr; gap: 1px; }
+    .class-card { min-height: 280px; padding: 24px 20px; }
+    .class-name { font-size: 22px; }
+
+    /* Testimonials */
+    .testimonials-grid { grid-template-columns: 1fr; gap: 14px; }
+    .testi-card { padding: 22px; }
+
+    /* CTA Strip */
+    .cta-strip { flex-direction: column; padding: 28px 20px; text-align: center; gap: 16px; }
+    .cta-strip-title { font-size: 22px; }
+    .btn-black { width: 100%; justify-content: center; }
+
+    /* About page */
+    .about-hero { min-height: 55vw; }
+    .about-hero-content { padding: 36px 22px; }
+    .about-split { grid-template-columns: 1fr; }
+    .about-split-img { height: 240px; }
+    .about-split-img img { height: 100%; }
+    .about-split-content { padding: 32px 22px; }
+    .values-grid { grid-template-columns: 1fr; gap: 1px; }
+    .value-card { padding: 24px 20px; }
+    .trainers-grid { grid-template-columns: 1fr; gap: 14px; }
+
+    /* Book page */
+    .book-hero { padding: 40px 22px; min-height: auto; }
+    .book-hero h1 { font-size: clamp(32px, 9vw, 52px) !important; }
+    .book-layout { grid-template-columns: 1fr; gap: 24px; padding: 32px 20px; }
+    .book-phone-card { padding: 28px 22px; }
+    .phone-number { font-size: clamp(24px, 7vw, 38px); letter-spacing: 0.03em; }
+    .book-form-card { padding: 28px 22px; }
+    .form-row { grid-template-columns: 1fr; }
+
+    /* Address strip */
+    .address-strip { grid-template-columns: 1fr; padding: 28px 20px; gap: 20px; }
+
+    /* Footer */
+    footer { flex-direction: column; padding: 22px 20px; text-align: center; gap: 10px; }
+
+    /* Hero H1 line spans */
+    .hero-h1 .line-white,
+    .hero-h1 .line-gold,
+    .hero-h1 .line-red { display: inline; }
+  }
+
+  @media (max-width: 380px) {
+    .hero-h1 { font-size: 34px; }
+    .stat-num { font-size: 28px; }
+    .phone-number { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ NAVIGATION ══ -->
+<nav id="main-nav">
+  <div class="nav-logo" onclick="showPage('home')">
+    <div class="nav-logo-badge">
+      <img src="1.png" >
+    </div>
+    <div class="nav-logo-text">
+      <div class="brand-name"><span>Train</span> and <span>Gain</span></div>
+      <div class="brand-tag">Set Goals. Crush Limits.</div>
+    </div>
+  </div>
+
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+    <li><a href="#" onclick="showPage('about')" id="nav-about">About</a></li>
+    <li><a href="#" onclick="showPage('book')" id="nav-book">Book Free Session</a></li>
+  </ul>
+
+  <button class="nav-cta" onclick="showPage('book')">Book Free PT</button>
+  <button class="hamburger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <ul>
+    <li><a href="#" onclick="showPage('home');closeMobileMenu()" id="mob-nav-home" class="active">Home</a></li>
+    <li><a href="#" onclick="showPage('about');closeMobileMenu()" id="mob-nav-about">About</a></li>
+    <li><a href="#" onclick="showPage('book');closeMobileMenu()" id="mob-nav-book">Book Free Session</a></li>
+  </ul>
+  <button class="mobile-menu-cta" onclick="showPage('book');closeMobileMenu()">Book Free PT Session</button>
+</div>
+
+<!-- ══ PAGE: HOME ══ -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-accent-line"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Kolkata's Premium Gym</div>
+      <h1 class="hero-h1">
+    <div>
+        <span class="line-white">stronger than</span>
+        <span class="line-white">Yesterday.</span>
+    </div>
+    <div>
+        <span class="line-gold">Unstoppable</span>
+        <span class="line-gold">Today.</span>
+    </div>
+</h1>
+      <p class="hero-sub">Elite training. Expert guidance. A community that pushes you further. Your transformation starts with one free session.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="showPage('book')">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          Book Your Free PT Session
+        </button>
+        <button class="btn-secondary" onclick="showPage('about')">About Us</button>
+      </div>
+      <div class="hero-phone">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        Call Reception: <a href="tel:6002306245">+91 60023 06245</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat-item fade-in">
+      <div class="stat-num">500+</div>
+      <div class="stat-label">Transformations</div>
+    </div>
+    <div class="stat-item fade-in">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Dedicated Coaches</div>
+    </div>
+    <div class="stat-item fade-in">
+      <div class="stat-num">20+</div>
+      <div class="stat-label">Specialised Programs</div>
+    </div>
+    <div class="stat-item fade-in">
+      <div class="stat-num">1</div>
+      <div class="stat-label">Goal — Your Best Self</div>
+    </div>
+  </div>
+
+  <!-- CLASSES -->
+  <section class="section" style="background:var(--black)">
+    <div class="section-eyebrow">What We Offer</div>
+    <h2 class="section-title">Our <span>Classes</span></h2>
+    <div class="classes-grid">
+      <div class="class-card yoga fade-in" tabindex="0" role="button" aria-pressed="false">
+        <svg class="class-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="20" cy="12" r="4"/><path d="M20 16v12M12 20h16M14 32l6-4 6 4"/>
+        </svg>
+        <div class="class-name">Yoga</div>
+        <div class="class-desc">Flexibility, mindfulness and recovery. Balance your body and sharpen your mind. All levels welcome.</div>
+        <div class="class-meta">Daily · 6:00 AM &amp; 7:00 PM</div>
+        <button class="class-cta" onclick="showPage('book')">Book Free Class →</button>
+      </div>
+      <div class="class-card zumba fade-in" tabindex="0" role="button" aria-pressed="false">
+        <svg class="class-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="20" cy="10" r="4"/><path d="M14 20l3 8 3-5 3 5 3-8M10 16l4 2M30 16l-4 2"/>
+        </svg>
+        <div class="class-name">Zumba</div>
+        <div class="class-desc">High-energy dance fitness that burns calories and fuels confidence. No experience needed — just bring energy.</div>
+        <div class="class-meta">Mon – Fri · 8:00 AM</div>
+        <button class="class-cta" onclick="showPage('book')">Book Free Class →</button>
+      </div>
+      <div class="class-card featured personal fade-in" tabindex="0" role="button" aria-pressed="false">
+        <div class="class-badge">Most Results</div>
+        <svg class="class-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="18" width="6" height="4" rx="1"/><rect x="32" y="18" width="6" height="4" rx="1"/>
+          <rect x="8" y="14" width="4" height="12" rx="1"/><rect x="28" y="14" width="4" height="12" rx="1"/>
+          <line x1="12" y1="20" x2="28" y2="20" stroke-width="2.5"/>
+        </svg>
+        <div class="class-name">Personal Training</div>
+        <div class="class-desc">1-on-1 sessions with a dedicated expert coach. The fastest, most direct path to the results you want.</div>
+        <div class="class-meta">Flexible · All Days</div>
+        <button class="class-cta" onclick="showPage('book')" style="color:var(--deep-red)">Book FREE First Session →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section testimonials-bg">
+    <div class="section-eyebrow">Real Results</div>
+    <h2 class="section-title">What Members <span>Say</span></h2>
+    <div class="testimonials-grid">
+      <div class="testi-card fade-in">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"I lost 12kg in just 3 months with my personal trainer. The dedication here is unlike any gym I've been to in Kolkata."</p>
+        <div class="testi-author">Rohan S.</div>
+        <div class="testi-role">PT Member · 6 months</div>
+      </div>
+      <div class="testi-card fade-in">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"The premium equipment and expert coaches here are unmatched. Train and Gain is the best investment I've made in myself."</p>
+        <div class="testi-author">Priya D.</div>
+        <div class="testi-role">Yoga Member · 1 year</div>
+      </div>
+      <div class="testi-card fade-in">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"The free PT session showed me exactly what I was missing. Within two weeks I was seeing results I hadn't seen in years."</p>
+        <div class="testi-author">Arjun M.</div>
+        <div class="testi-role">PT Member · 4 months</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA STRIP -->
+  <div class="cta-strip">
+    <div>
+      <div class="cta-strip-title">Your First Session Is Free.</div>
+      <div class="cta-strip-sub">Call reception now — confirmed in minutes, no commitment required.</div>
+    </div>
+    <button class="btn-black" onclick="showPage('book')">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      Book Free PT Session
+    </button>
+  </div>
+
+  <footer>
+    <div>
+      <div class="footer-brand">Train and Gain</div>
+      <div class="footer-copy">Set Goals. Crush Limits.</div>
+    </div>
+    <div class="footer-copy">© 2025 Train and Gain · Astra Tower, Action Area II-C, Kolkata 700161</div>
+    <div class="footer-tag">Discipline · Integrity · Excellence</div>
+  </footer>
+</div>
+
+<!-- ══ PAGE: ABOUT ══ -->
+<div class="page" id="page-about">
+
+  <section class="about-hero">
+    <div class="about-hero-bg"></div>
+    <div class="about-hero-content">
+      <div class="section-eyebrow">Our Story</div>
+      <h1 class="hero-h1" style="font-size:clamp(42px,5vw,72px)">
+        <span class="line-white">Built for</span>
+        <span class="line-gold">Champions.</span>
+      </h1>
+      <p style="font-size:15px;color:#bbb;max-width:480px;margin-top:16px;line-height:1.7">Train and Gain is more than a gym — it's a mindset. We exist to empower individuals to transform their bodies, sharpen their focus, and elevate their lives.</p>
+      <button class="btn-primary" onclick="showPage('book')" style="margin-top:28px">Book Your Free Session</button>
+    </div>
+  </section>
+
+  <!-- ABOUT SPLIT -->
+  <div class="about-split">
+    <div class="about-split-img">
+      <img src="2.png" alt="Train and Gain Gym Interior">
+    </div>
+    <div class="about-split-content">
+      <div class="section-eyebrow">Who We Are</div>
+      <h2 class="section-title" style="font-size:36px;margin-bottom:20px">Elite Training.<br><span>Real Results.</span></h2>
+      <p>We combine elite training methodologies, expert guidance, and a powerful community to help you become your strongest self — physically and mentally.</p>
+      <p>Located in the heart of Action Area II-C, Kolkata, our premium facility is designed to push boundaries and break limits every single day.</p>
+      <p style="margin-bottom:0">Every member gets personal attention. Every goal is taken seriously. Every session counts.</p>
+    </div>
+  </div>
+
+  <!-- VALUES -->
+  <section class="section" style="background:var(--black)">
+    <div class="section-eyebrow">What We Stand For</div>
+    <h2 class="section-title">Our <span>Values</span></h2>
+    <div class="values-grid">
+      <div class="value-card fade-in">
+        <svg class="value-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="18" cy="18" r="15"/><path d="M18 8v10l6 4"/>
+        </svg>
+        <div class="value-title">Our Mission</div>
+        <div class="value-text">To help individuals achieve lasting physical and mental transformation through elite coaching, expert programming, and community accountability.</div>
+      </div>
+      <div class="value-card fade-in">
+        <svg class="value-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M18 3l4 9h9l-7 6 3 9-9-6-9 6 3-9-7-6h9z"/>
+        </svg>
+        <div class="value-title">Our Vision</div>
+        <div class="value-text">To be the most trusted fitness brand in Kolkata that builds stronger bodies, stronger minds, and stronger lives — one transformation at a time.</div>
+      </div>
+      <div class="value-card fade-in">
+        <svg class="value-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M18 4l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/>
+          <circle cx="18" cy="18" r="4"/>
+        </svg>
+        <div class="value-title">Our Values</div>
+        <div class="value-text">Discipline. Integrity. Excellence. Community. Progress. These aren't just words — they are the standard we hold ourselves and every member to, every day.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRAINERS -->
+  <section class="section" style="background:var(--dark-gray)">
+    <div class="section-eyebrow">The Experts</div>
+    <h2 class="section-title">Meet Your <span>Trainers</span></h2>
+    <div class="trainers-grid">
+      <div class="trainer-card fade-in">
+        <div class="trainer-img">
+          <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80" alt="Personal Trainer">
+        </div>
+        <div class="trainer-info">
+          <div class="trainer-name">Head PT Coach</div>
+          <div class="trainer-role">Certified Personal Trainer · 8 yrs</div>
+          <div class="trainer-bio">Specialised in strength, body recomposition, and athletic performance. Has transformed over 200 members.</div>
+        </div>
+      </div>
+      <div class="trainer-card fade-in">
+        <div class="trainer-img">
+          <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&q=80" alt="Yoga Instructor">
+        </div>
+        <div class="trainer-info">
+          <div class="trainer-name">Yoga Expert</div>
+          <div class="trainer-role">Yoga Instructor · 6 yrs</div>
+          <div class="trainer-bio">Trained in Hatha and Vinyasa yoga. Specialised in flexibility, recovery, and mindfulness-based movement.</div>
+        </div>
+      </div>
+      <div class="trainer-card fade-in">
+        <div class="trainer-img">
+          <img src="https://images.unsplash.com/photo-1548690312-e3b507d8c110?w=600&q=80" alt="Zumba Coach">
+        </div>
+        <div class="trainer-info">
+          <div class="trainer-name">Zumba Coach</div>
+          <div class="trainer-role">Licensed Zumba Instructor · 5 yrs</div>
+          <div class="trainer-bio">High-energy dance fitness expert. Makes every class a celebration while delivering real calorie-burning results.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA STRIP -->
+  <div class="cta-strip">
+    <div>
+      <div class="cta-strip-title">Train With the Best — Free.</div>
+      <div class="cta-strip-sub">Meet your trainer, zero cost, zero commitment. One call is all it takes.</div>
+    </div>
+    <button class="btn-black" onclick="showPage('book')">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      Book Free PT Session
+    </button>
+  </div>
+
+  <footer>
+    <div>
+      <div class="footer-brand">Train and Gain</div>
+      <div class="footer-copy">Set Goals. Crush Limits.</div>
+    </div>
+    <div class="footer-copy">© 2025 Train and Gain · Astra Tower, Action Area II-C, Kolkata 700161</div>
+    <div class="footer-tag">Discipline · Integrity · Excellence</div>
+  </footer>
+</div>
+
+<!-- ══ PAGE: BOOK ══ -->
+<div class="page" id="page-book">
+
+  <div class="book-hero">
+    <div style="position:relative;z-index:2;animation:heroIn 0.7s both">
+      <div class="section-eyebrow">No Cost. No Commitment.</div>
+      <h1 class="hero-h1" style="font-size:clamp(40px,5vw,68px)">
+        <span class="line-white">Book Your</span>
+        <span class="line-red">Free</span>
+        <span class="line-gold">PT Session.</span>
+      </h1>
+      <p style="font-size:15px;color:#bbb;max-width:480px;margin-top:14px;line-height:1.7">Call us directly or request a callback below. Our team confirms your session within the hour.</p>
+    </div>
+  </div>
+
+  <div class="book-layout">
+
+    <!-- PHONE -->
+    <div>
+      <div class="book-phone-card">
+        <div class="phone-icon-wrap">
+          <svg width="28" height="28" fill="none" stroke="#D4AF37" stroke-width="1.5" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <div class="phone-label">Call Reception Directly</div>
+        <div class="phone-number">+91 60023 06245</div>
+        <div class="phone-hours">Monday – Saturday · 6:00 AM – 10:00 PM</div>
+        <a href="tel:6002306245" class="btn-primary" style="display:inline-flex;margin-bottom:8px">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          Tap to Call Now
+        </a>
+        <div class="trust-badges">
+          <div class="trust-item"><div class="trust-dot"></div>No credit card required</div>
+          <div class="trust-item"><div class="trust-dot"></div>No lock-in contract</div>
+          <div class="trust-item"><div class="trust-dot"></div>Expert PT matched to your goals</div>
+          <div class="trust-item"><div class="trust-dot"></div>Confirmed within the hour</div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;background:var(--dark-gray);border:1px solid rgba(212,175,55,0.1);padding:20px">
+        <div class="address-label" style="font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#555;margin-bottom:10px">Find Us</div>
+        <div style="font-size:13px;color:#bbb;line-height:1.7">
+          AC-11, 1st Floor, Astra Tower<br>
+          Action Area II-C<br>
+          Kolkata – 700161
+        </div>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="book-form-card">
+      <div class="divider-or" style="margin-top:0;margin-bottom:24px">Or request a callback</div>
+      <div class="form-title">Book a Session</div>
+      <div class="form-sub">Fill in your details and we'll call you back to confirm your free PT session.</div>
+      <form onsubmit="handleBooking(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" placeholder="+91 XXXXX XXXXX" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+          <label>Interested In</label>
+          <select>
+            <option value="" disabled selected>Select a class / goal</option>
+            <option>Personal Training (Free First Session)</option>
+            <option>Yoga</option>
+            <option>Zumba</option>
+            <option>Weight Loss</option>
+            <option>Strength & Muscle</option>
+            <option>General Fitness</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Preferred Time</label>
+          <select>
+            <option value="" disabled selected>When works for you?</option>
+            <option>Early Morning (6–9 AM)</option>
+            <option>Morning (9 AM–12 PM)</option>
+            <option>Afternoon (12–4 PM)</option>
+            <option>Evening (4–8 PM)</option>
+            <option>Night (8–10 PM)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Anything else? (Optional)</label>
+          <textarea placeholder="Any injuries, goals, or questions for your trainer..."></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Submit — We'll Call You Back</button>
+      </form>
+      <div id="form-success" style="display:none;margin-top:20px;padding:16px;border:1px solid rgba(212,175,55,0.3);background:rgba(212,175,55,0.05);text-align:center">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase">Request Received!</div>
+        <div style="font-size:13px;color:#888;margin-top:6px">We'll call you back within the hour to confirm your free session.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gold-rule"></div>
+
+  <footer>
+    <div>
+      <div class="footer-brand">Train and Gain</div>
+      <div class="footer-copy">Set Goals. Crush Limits.</div>
+    </div>
+    <div class="footer-copy">© 2025 Train and Gain · Astra Tower, Action Area II-C, Kolkata 700161</div>
+    <div class="footer-tag">Discipline · Integrity · Excellence</div>
+  </footer>
+</div>
+
+<script>
+  function showPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    const el = document.getElementById('nav-' + page);
+    if (el) el.classList.add('active');
+    // sync mobile menu active state
+    document.querySelectorAll('.mobile-menu a').forEach(a => a.classList.remove('active'));
+    const mobEl = document.getElementById('mob-nav-' + page);
+    if (mobEl) mobEl.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    observeFade();
+    return false;
+  }
+
+  function observeFade() {
+    const els = document.querySelectorAll('.fade-in:not(.visible)');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
+  }
+
+  function handleBooking(e) {
+    e.preventDefault();
+    var form = e.target;
+    var name     = form.querySelector('input[type="text"]').value.trim();
+    var phone    = form.querySelector('input[type="tel"]').value.trim();
+    var email    = form.querySelector('input[type="email"]').value.trim();
+    var interest = form.querySelectorAll('select')[0].value;
+    var timing   = form.querySelectorAll('select')[1].value;
+    var notes    = form.querySelector('textarea').value.trim();
+
+    var msg = "Hello Train and Gain! 👋\n\n"
+      + "I'd like to book a session.\n\n"
+      + "📋 *Booking Details*\n"
+      + "• Name: " + (name || '—') + "\n"
+      + "• Phone: " + (phone || '—') + "\n"
+      + "• Email: " + (email || '—') + "\n"
+      + "• Interested In: " + (interest || '—') + "\n"
+      + "• Preferred Time: " + (timing || '—') + "\n"
+      + (notes ? "• Additional Notes: " + notes + "\n" : "")
+      + "\nPlease confirm my free PT session. Thank you!";
+
+    var waURL = "https://wa.me/916002306245?text=" + encodeURIComponent(msg);
+    window.open(waURL, '_blank');
+
+    form.style.display = 'none';
+    document.getElementById('form-success').style.display = 'block';
+  }
+
+  // Hamburger menu
+  function closeMobileMenu() {
+    document.getElementById('mobile-menu').classList.remove('open');
+    document.getElementById('hamburger-btn').classList.remove('open');
+    document.getElementById('hamburger-btn').setAttribute('aria-expanded', 'false');
+  }
+
+  document.getElementById('hamburger-btn').addEventListener('click', function() {
+    var isOpen = this.classList.toggle('open');
+    document.getElementById('mobile-menu').classList.toggle('open', isOpen);
+    this.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  function selectClassCard(card) {
+    document.querySelectorAll('.class-card').forEach(item => {
+      const isSelected = item === card;
+      item.classList.toggle('selected', isSelected);
+      item.setAttribute('aria-pressed', String(isSelected));
+    });
+  }
+
+  document.querySelectorAll('.class-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.class-cta')) return;
+      selectClassCard(card);
+    });
+
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        selectClassCard(card);
+      }
+    });
+  });
+
+  observeFade();
+</script>
+</body>
+</html>
